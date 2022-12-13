@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block html_title %}Book list{% endblock %}
+{% block page_title %}Book list{% endblock %}
+
+{% block content %}
+
+<a href='{% url "create" %}' class='btn btn-primary '>
+  Add book
+</a>
+
+<a href='{% url "create" %}?better=true' class='btn btn-primary '>
+  Better add book
+</a>
+
+<div class="overflow-x-auto">
+  <table class="table table-compact table-zebra w-full">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Edit</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Editions</th>
+        <th>Testimonials</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in object_list %}
+      <tr>
+        <td>
+          {{ book.id }}
+        </td>
+        <td>
+          <a class='btn btn-xs' href='{% url "update" book.id %}'>Edit</a>
+          |
+          <a class='btn btn-xs' href='{% url "update" book.id %}?better=1'>Better edit</a>
+        </td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>
+          {% for edition in book.edition_set.all %}
+          {{ edition.publisher }}: {{ edition.year }} ({{ edition.pages }})
+          {% if not forloop.last %},{% endif %}
+          {% empty %}
+          -
+          {% endfor %}
+        </td>
+        <td>
+          {% for testimonial in book.testimonial_set.all %}
+          {{ testimonial.name }}: {{ testimonial.testimonial|truncatewords:10 }}
+          {% if not forloop.last %},{% endif %}
+          {% empty %}
+          -
+          {% endfor %}
+        </td>
+      </tr>
+
+      {% endfor %}
+
+    </tbody>
+  </table>
+</div> <!-- table -->
+</div> <!-- div -->
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block html_title %} Book form {% endblock %}
+{% block page_title %} Book form {% endblock %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="card w-full bg-base-100 shadow-xl card-bordered card-compact border border-gray-900">
+        <div class="card-body">
+            <h2 class="card-title">Book</h2>
+            {{ form|crispy }}
+        </div>
+    </div>
+
+    {% include "partials/_inline_set_simple.html" with formset=inlines.0 title="Editions" %}
+    {% include "partials/_inline_set_simple.html" with formset=inlines.1 title="Testimonials" %}
+
+    <input type="submit" class="btn bg-blue-600" value="Save" />
+    <a href="/" class="btn bg-gray-600">Back</a>
+</form>
+{% endblock %}
