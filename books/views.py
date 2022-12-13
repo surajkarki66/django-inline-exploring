@@ -8,6 +8,15 @@ from extra_views import (
 from . import models
 
 
+class BetterMixin:
+    def get_template_names(self):
+        if self.request.GET.get("better"):
+            return ["books/book_better_form.html"]
+        return super().get_template_names()
+
+    def get_success_url(self):
+        return "/"
+
 class BookListView(ListView):
     model = models.Book
 
@@ -18,7 +27,7 @@ class BookListView(ListView):
 class EditionInline(InlineFormSetFactory):
     model = models.Edition
     fields = ["publisher", "year", "pages"]
-    factory_kwargs = {"extra": 1}
+    factory_kwargs = {"extra": 1}  # here extra: 1 means only one instance form will be rendered in form
 
 
 class TestimonialInline(InlineFormSetFactory):
@@ -28,7 +37,7 @@ class TestimonialInline(InlineFormSetFactory):
 
 
 
-class BookCreateView(CreateWithInlinesView):
+class BookCreateView(BetterMixin,CreateWithInlinesView):
     model = models.Book
     inlines = [EditionInline, TestimonialInline]
     fields = ["title", "author"]
@@ -37,7 +46,7 @@ class BookCreateView(CreateWithInlinesView):
         return "/"
 
 
-class BookUpdateView(UpdateWithInlinesView):
+class BookUpdateView(BetterMixin,UpdateWithInlinesView):
     model = models.Book
     inlines = [EditionInline, TestimonialInline]
     fields = ["title", "author"]
