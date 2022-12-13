@@ -4,11 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-django-crispy-forms = "*"
-crispy-tailwind = "*"
-django-widget-tweaks = "*"
-django-extra-views = "*"
+django = "==4.1.4"
+django-crispy-forms = "==1.14.0"
+crispy-tailwind = "==0.5.0"
+django-widget-tweaks = "==1.4.12"
+django-extra-views = "==0.14.0"
+asgiref = "==3.5.2"
+sqlparse = "==0.4.3"
 
 [dev-packages]
 
